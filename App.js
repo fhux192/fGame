@@ -5,21 +5,35 @@ import { useState } from "react";
 
 import StartGameScreen from "./screens/StartGameScreen";
 import GameScreen from "./screens/GameScreen";
+import GameOverScreen from "./screens/GameOverScreen";
+
+import Colors from "./constant/colors";
 
 export default function App() {
   const [userNumber, setUsernumber] = useState();
+  const [gameIsOver,setGameIsOver]=useState(true);
 
   function pickNumberHandler(pickedNumber) {
     setUsernumber(pickedNumber);
+    setGameIsOver(false);
+  }
+
+  function gameOverHandler(){
+    setGameIsOver(true)
   }
 
   let screen = <StartGameScreen onPickedNumber={pickNumberHandler}/>;
 
   if (userNumber) {
-    screen = <GameScreen />;
+    screen = <GameScreen userNumber={userNumber} onGameOver={gameOverHandler}  />;
   }
+
+  if (gameIsOver && userNumber){
+    screen=<GameOverScreen/>
+  }
+
   return (
-    <LinearGradient colors={["#4e0329", "#ddb52f"]} style={styles.rootScreen}>
+    <LinearGradient colors={[Colors.red600,Colors.yellow600 ]} style={styles.rootScreen}>
       <ImageBackground
         source={require("./assets/images/WallE.jpg")}
         resizeMode="cover"
@@ -27,8 +41,7 @@ export default function App() {
         imageStyle={styles.backgroundImage}
       >
         <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
-        <StatusBar style="auto" />
-        
+        <StatusBar style="light" />
       </ImageBackground>
     </LinearGradient>
   );

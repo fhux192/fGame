@@ -14,10 +14,10 @@ function StartGameScreen({ onPickedNumber }) {
   function confirmInputHandler() {
     const chosenNumber = parseInt(enteredNumber);
 
-    if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+    if (isNaN(chosenNumber) || chosenNumber <= 99 || chosenNumber > 999) {
       Alert.alert(
         "Invalid number!",
-        "Number has to be a number between 1 and 99.",
+        "Number has to be a number between 100 and 999.",
         [{ text: "Okay", style: "cancel", onPress: resetInputHandler }]
       );
       return;
@@ -33,7 +33,7 @@ function StartGameScreen({ onPickedNumber }) {
     <View style={styles.inputContainer}>
       <TextInput
         style={styles.numberInput}
-        maxLength={2}
+        maxLength={3}
         keyboardType="number-pad"
         autoCapitalize="none"
         autoCorrect={false}
@@ -58,11 +58,13 @@ const styles = StyleSheet.create({
   inputContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop:280,
+    marginTop: 280,
     marginHorizontal: 20,
     padding: 20,
     backgroundColor: Colors.red500,
     borderRadius: 15,
+    borderWidth: 3,
+    borderColor: "black",
     elevation: 5,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 5 },
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   numberInput: {
-    width: 70,
+    width: 100,
     height: 50,
     textAlign: "center",
     borderBottomColor: Colors.yellow500,
@@ -79,6 +81,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     fontSize: 40,
     fontWeight: "bold",
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1,
   },
   buttonsContainer: {
     flexDirection: "row",

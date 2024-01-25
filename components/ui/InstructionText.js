@@ -1,4 +1,4 @@
-import { View, Text,StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Colors from "../../constant/colors";
 
 function InstructionText({ children }) {
@@ -11,12 +11,12 @@ function InstructionText({ children }) {
 
 export default InstructionText;
 
-const styles=StyleSheet.create({
-    textCotainer:{
-        margin:10,
-        fontSize:25,
-        fontWeight:"bold",
-        color:Colors.yellow500,
-        textAlign:"center"
-    }
-})
+const styles = StyleSheet.create({
+  textCotainer: {
+    margin: 10,
+    fontSize: 25,
+    fontWeight: "bold",
+    color: Colors.yellow500,
+    textAlign: "center",
+  },
+});

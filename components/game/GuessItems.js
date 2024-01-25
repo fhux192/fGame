@@ -14,26 +14,29 @@ function GuessItem(props) {
 export default GuessItem;
 
 const styles = StyleSheet.create({
-  container: {margin:10},
+  container: { marginHorizontal: 10 },
   goalItems: {
     alignItems: "center",
     width: "100%",
     height: "20%",
     borderRadius: 100,
-    borderColor:"black",
+    borderColor: "black",
     backgroundColor: Colors.yellow500,
-    padding: 50,
+    padding: 45,
     shadowColor: "black",
     shadowOpacity: 0.5,
     shadowOffset: { width: 0, height: 5 },
     shadowRadius: 3,
-    
   },
   goalText: {
-    textAlign:"center",
+    textAlign: "center",
     fontSize: 25,
     fontWeight: "bold",
-    bottom: 68,
+    bottom: 62,
     color: Colors.red500,
+    shadowColor: "black",
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 1,
   },
 });

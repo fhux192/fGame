@@ -1,39 +1,64 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, ImageBackground,SafeAreaView } from "react-native";
+import { StyleSheet, ImageBackground, SafeAreaView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+
 import { useState } from "react";
 
 import StartGameScreen from "./screens/StartGameScreen";
 import GameScreen from "./screens/GameScreen";
 import GameOverScreen from "./screens/GameOverScreen";
-
 import Colors from "./constant/colors";
 
 export default function App() {
   const [userNumber, setUsernumber] = useState();
-  const [gameIsOver,setGameIsOver]=useState(true);
+  const [roundsNumber, setRoundsNumber] = useState(0);
+  const [gameIsOver, setGameIsOver] = useState(true);
 
   function pickNumberHandler(pickedNumber) {
     setUsernumber(pickedNumber);
     setGameIsOver(false);
   }
 
-  function gameOverHandler(){
-    setGameIsOver(true)
+  function countRoundHandler() {
+    setRoundsNumber(roundsNumber +1);
   }
 
-  let screen = <StartGameScreen onPickedNumber={pickNumberHandler}/>;
+  function gameOverHandler() {
+    setGameIsOver(!gameIsOver);
+  }
+
+  function resetGameHandler() {
+    setUsernumber(null), setRoundsNumber(0);
+  }
+
+  let screen = <StartGameScreen onPickedNumber={pickNumberHandler} />;
 
   if (userNumber) {
-    screen = <GameScreen userNumber={userNumber} onGameOver={gameOverHandler}  />;
+    screen = (
+      <GameScreen
+        userNumber={userNumber}
+        onGameOver={gameOverHandler}
+        onGameCount={countRoundHandler}
+      />
+    );
   }
 
-  if (gameIsOver && userNumber){
-    screen=<GameOverScreen/>
+  if (gameIsOver && userNumber) {
+    screen = (
+      <GameOverScreen
+        userNumber={userNumber}
+        roundsNumber={roundsNumber}
+        onResetGame={resetGameHandler}
+        onGameOver={gameOverHandler}
+      />
+    );
   }
 
   return (
-    <LinearGradient colors={[Colors.red600,Colors.yellow600 ]} style={styles.rootScreen}>
+    <LinearGradient
+      colors={[Colors.red600, Colors.yellow600]}
+      style={styles.rootScreen}
+    >
       <ImageBackground
         source={require("./assets/images/WallE.jpg")}
         resizeMode="cover"

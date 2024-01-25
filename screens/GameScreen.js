@@ -1,5 +1,4 @@
 import { View, Text, StyleSheet, Alert, FlatList } from "react-native";
-import Title from "../components/ui/Title";
 import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -7,8 +6,8 @@ import NumberGuess from "../components/game/NumberGuess";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import InstructionText from "../components/ui/InstructionText";
 import Colors from "../constant/colors";
+import Title from "../components/ui/Title";
 import GuessItem from "../components/game/GuessItems";
-
 
 function generateRandomBetween(min, max, exclude) {
   const rndNum = Math.floor(Math.random() * (max - min) + min);
@@ -21,10 +20,11 @@ function generateRandomBetween(min, max, exclude) {
 }
 
 let minBoundary = 1;
-let maxBoundary = 100;
+let maxBoundary = 1000;
+const numColumns = 3;
 
-function GameScreen({ userNumber, onPickedNumber, onGameOver }) {
-  const intitalGuess = generateRandomBetween(1, 100, userNumber);
+function GameScreen({ userNumber, onGameOver, onGameCount }) {
+  const intitalGuess = generateRandomBetween(1, 1000, userNumber);
   const [currentGuess, setCurrentGuess] = useState(intitalGuess);
   const [guessedNumber, setGuessedNumber] = useState([]);
 
@@ -33,6 +33,11 @@ function GameScreen({ userNumber, onPickedNumber, onGameOver }) {
       onGameOver();
     }
   }, [currentGuess, userNumber, onGameOver]);
+
+  useEffect(() => {
+    minBoundary = 1;
+    maxBoundary = 1000;
+  }, []);
 
   function nextGuessHandler(direction) {
     if (
@@ -56,6 +61,7 @@ function GameScreen({ userNumber, onPickedNumber, onGameOver }) {
       currentGuess
     );
     setCurrentGuess(newRndNumber);
+    onGameCount();
     setGuessedNumber((currentGuessNum) => [
       ...currentGuessNum,
       { text: currentGuess, id: Math.random().toString() },
@@ -75,19 +81,19 @@ function GameScreen({ userNumber, onPickedNumber, onGameOver }) {
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
             <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
-              <Ionicons name="ios-arrow-down" size={25} />
+              <Ionicons name="remove-circle" size={25} color={Colors.red600} />
             </PrimaryButton>
           </View>
           <View style={styles.buttonContainer}>
             <PrimaryButton onPress={nextGuessHandler.bind(this, "greater")}>
-              <Ionicons name="ios-arrow-up" size={25} />
+              <Ionicons name="add-circle" size={25} color={Colors.red600} />
             </PrimaryButton>
           </View>
         </View>
       </View>
       <FlatList
-        horizontal={true}
         data={guessedNumber}
+        numColumns={numColumns}
         alwaysBounceHorizontal={false}
         keyExtractor={(item, index) => item.id.toString()}
         renderItem={(itemData) => <GuessItem text={itemData.item.text} />}
@@ -118,7 +124,7 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flexDirection: "row",
-    justifyContent:'space-between',
+    justifyContent: "space-between",
     paddingVertical: 5,
     alignItems: "center",
   },
